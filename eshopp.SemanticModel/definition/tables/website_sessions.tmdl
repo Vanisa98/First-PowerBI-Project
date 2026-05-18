@@ -1,0 +1,148 @@
+table website_sessions
+	lineageTag: c0c841b5-08f5-4c11-b73b-0cf6ff43b724
+
+	measure session_quality_score_avg_scaled = INT(AVERAGEX(website_sessions, website_sessions[session_quality_score] * 100))
+		lineageTag: 7bec4fb5-a52d-4871-a0a3-d6cec5813068
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure target_quality_score = 50
+		formatString: 0
+		lineageTag: 878a9b2c-e6de-4b19-a1ea-81c6cbcc0509
+
+	measure max_quality_score = 100
+		formatString: 0
+		lineageTag: 5be0d292-5a92-4642-8c9e-210290a4d527
+
+	column session_id
+		dataType: string
+		lineageTag: 56fb665d-17ef-43c0-a44a-f600f24f4333
+		summarizeBy: none
+		sourceColumn: session_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column session_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 366223bd-96a0-4bd0-8cef-d73081f70782
+		summarizeBy: none
+		sourceColumn: session_date
+
+		variation Variation
+			isDefault
+			relationship: 26fb51c4-7262-4f8d-8ce8-f51d93418b61
+			defaultHierarchy: LocalDateTable_498cade4-0e13-4655-b541-9097700c5d4a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b1144042-0012-4dae-97fd-890f42032834
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b214e5ab-969e-422f-b8b2-eca63a848417
+		summarizeBy: none
+		sourceColumn: store_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_type
+		dataType: string
+		lineageTag: 508ef0c4-975a-44aa-ac8b-e1a800f042bc
+		summarizeBy: none
+		sourceColumn: device_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column session_purchase_made
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 382337ce-7647-4c03-88ef-eeee3f62a113
+		summarizeBy: none
+		sourceColumn: session_purchase_made
+
+		annotation SummarizationSetBy = Automatic
+
+	column session_duration_minutes
+		dataType: int64
+		formatString: 0
+		lineageTag: 2453129a-7a5e-4636-a7b9-0c839f7e0fe6
+		summarizeBy: sum
+		sourceColumn: session_duration_minutes
+
+		annotation SummarizationSetBy = Automatic
+
+	column session_pages_visited
+		dataType: int64
+		formatString: 0
+		lineageTag: e36a1dbf-c9a7-49ad-b7b6-a30a2beb4823
+		summarizeBy: sum
+		sourceColumn: session_pages_visited
+
+		annotation SummarizationSetBy = Automatic
+
+	column session_quality_score
+		dataType: double
+		lineageTag: b1dbeff6-1c6e-4f18-bf5a-9723ed041c4f
+		summarizeBy: sum
+		sourceColumn: session_quality_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column browser
+		dataType: string
+		lineageTag: aa5a40e8-a79d-47d6-99d0-2c4b2ee4cf27
+		summarizeBy: none
+		sourceColumn: browser
+
+		annotation SummarizationSetBy = Automatic
+
+	column os
+		dataType: string
+		lineageTag: 483d8eda-d602-4c13-8e92-5663a46e2ea8
+		summarizeBy: none
+		sourceColumn: os
+
+		annotation SummarizationSetBy = Automatic
+
+	column os_on_device
+		dataType: string
+		lineageTag: 811b481d-6ff4-49e8-8686-49df73e41eeb
+		summarizeBy: none
+		sourceColumn: os_on_device
+
+		annotation SummarizationSetBy = Automatic
+
+	partition website_sessions = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\vongp\Desktop\Programming\PowerBI\website_sessions.csv"),[Delimiter=",", Columns=10, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"session_id", type text}, {"session_date", type date}, {"customer_id", Int64.Type}, {"store_id", Int64.Type}, {"device_type", type text}, {"browser_os", type text}, {"session_purchase_made", type logical}, {"session_duration_minutes", Int64.Type}, {"session_pages_visited", Int64.Type}, {"session_quality_score", type number}}),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Changed Type", "browser_os", Splitter.SplitTextByDelimiter("|", QuoteStyle.Csv), {"browser_os.1", "browser_os.2"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"browser_os.1", type text}, {"browser_os.2", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type1",{{"browser_os.1", "browser"}, {"browser_os.2", "os"}}),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Renamed Columns", "os_on_devices", each Text.Combine({[session_id], [os], [device_type]}, " on "), type text),
+				    #"Removed Columns" = Table.RemoveColumns(#"Inserted Merged Column",{"os_on_devices"}),
+				    #"Inserted Merged Column1" = Table.AddColumn(#"Removed Columns", "os_on_device", each Text.Combine({[os], [device_type]}, " on "), type text),
+				    #"Replaced Value" = Table.ReplaceValue(#"Inserted Merged Column1",null,0.5,Replacer.ReplaceValue,{"session_quality_score"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

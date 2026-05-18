@@ -1,0 +1,252 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "caf57e739d7abaec3b31",
+  "position": {
+    "x": 640,
+    "y": 158.0408163265306,
+    "z": 2004,
+    "height": 284.734693877551,
+    "width": 640,
+    "tabOrder": 2004
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "geographies"
+                        }
+                      },
+                      "Hierarchy": "geography_country Hierarchy"
+                    }
+                  },
+                  "Level": "geography_country"
+                }
+              },
+              "queryRef": "geographies.geography_country Hierarchy.geography_country",
+              "nativeQueryRef": "geography_country Hierarchy geography_country",
+              "active": true
+            },
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "geographies"
+                        }
+                      },
+                      "Hierarchy": "geography_country Hierarchy"
+                    }
+                  },
+                  "Level": "geography_state"
+                }
+              },
+              "queryRef": "geographies.geography_country Hierarchy.geography_state",
+              "nativeQueryRef": "geography_country Hierarchy geography_state",
+              "active": false
+            },
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "geographies"
+                        }
+                      },
+                      "Hierarchy": "geography_country Hierarchy"
+                    }
+                  },
+                  "Level": "geography_city"
+                }
+              },
+              "queryRef": "geographies.geography_country Hierarchy.geography_city",
+              "nativeQueryRef": "geography_country Hierarchy geography_city",
+              "active": false
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "geographies"
+                        }
+                      },
+                      "Property": "geography_population"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(geographies.geography_population)",
+              "nativeQueryRef": "Sum of geography_population"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "geographies"
+                      }
+                    },
+                    "Property": "geography_population"
+                  }
+                },
+                "Function": 0
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Population Drilldown'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4a3241c81397c36a8d72",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "geographies"
+                  }
+                },
+                "Property": "geography_population"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "26d3b7e09e259d636004",
+        "field": {
+          "HierarchyLevel": {
+            "Expression": {
+              "Hierarchy": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "geographies"
+                  }
+                },
+                "Hierarchy": "geography_country Hierarchy"
+              }
+            },
+            "Level": "geography_country"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "8168e441d72a35c09c38",
+        "field": {
+          "HierarchyLevel": {
+            "Expression": {
+              "Hierarchy": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "geographies"
+                  }
+                },
+                "Hierarchy": "geography_country Hierarchy"
+              }
+            },
+            "Level": "geography_state"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "d35ef01446d10a453d52",
+        "field": {
+          "HierarchyLevel": {
+            "Expression": {
+              "Hierarchy": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "geographies"
+                  }
+                },
+                "Hierarchy": "geography_country Hierarchy"
+              }
+            },
+            "Level": "geography_city"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

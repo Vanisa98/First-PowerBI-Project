@@ -1,0 +1,68 @@
+table stores
+	lineageTag: cff7a09b-39b4-46de-9aa2-ffe5b65592dc
+
+	measure oldest_store_open_date = MIN(stores[store_open_date])
+		formatString: General Date
+		lineageTag: f8a537c5-452e-48d1-b880-6e6db34c568a
+
+	column store_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a35e6451-9d9a-47f1-ba69-7e778f573415
+		summarizeBy: none
+		sourceColumn: store_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_name
+		dataType: string
+		lineageTag: fcb19aba-a061-4727-9290-cd972f21012b
+		summarizeBy: none
+		sourceColumn: store_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_type
+		dataType: string
+		lineageTag: 75d3f936-088d-4ef2-9ae3-44499b7ef5a1
+		summarizeBy: none
+		sourceColumn: store_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_open_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1e2a3ee7-f741-4138-accc-5aa9dc5daadd
+		summarizeBy: none
+		sourceColumn: store_open_date
+
+		variation Variation
+			isDefault
+			relationship: 7fb64487-25bf-4952-ae49-a984e3f496fb
+			defaultHierarchy: LocalDateTable_8bd308ce-f04a-48e0-b132-4ce4c5f0da21.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column store_location
+		dataType: string
+		lineageTag: cf1dbc31-ff21-4616-a6ee-682cac7b58db
+		summarizeBy: none
+		sourceColumn: store_location
+
+		annotation SummarizationSetBy = Automatic
+
+	partition stores = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\vongp\Desktop\Programming\PowerBI\stores.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"store_id", Int64.Type}, {"store_name", type text}, {"store_type", type text}, {"store_open_date", type date}, {"store_location", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

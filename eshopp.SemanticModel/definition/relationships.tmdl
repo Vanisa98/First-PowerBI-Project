@@ -1,0 +1,44 @@
+relationship 36f741b6-30ce-4238-9924-03830bb7e2aa
+	joinOnDateBehavior: datePartOnly
+	fromColumn: customers.customer_signup_date
+	toColumn: LocalDateTable_0b92fc6a-6257-40a4-a6e9-25a3a6e602cb.Date
+
+relationship 26fb51c4-7262-4f8d-8ce8-f51d93418b61
+	joinOnDateBehavior: datePartOnly
+	fromColumn: website_sessions.session_date
+	toColumn: LocalDateTable_498cade4-0e13-4655-b541-9097700c5d4a.Date
+
+relationship AutoDetected_a9b90744-8669-4af2-8280-bbcbe94bed3d
+	fromColumn: website_sessions.customer_id
+	toColumn: customers.customer_id
+
+relationship AutoDetected_124c120f-9da6-455d-be92-bb0a191ba17e
+	fromColumn: sales.customer_id
+	toColumn: customers.customer_id
+
+relationship 0cfc38c3-364d-484b-af86-c811e9a31b33
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dates.date
+	toColumn: LocalDateTable_499096b7-49fa-4269-b315-d9804b837955.Date
+
+relationship AutoDetected_37019286-4b78-4218-9495-93c015f5fdde
+	fromColumn: sales.date_id
+	toColumn: dates.date_id
+
+relationship 7fb64487-25bf-4952-ae49-a984e3f496fb
+	joinOnDateBehavior: datePartOnly
+	fromColumn: stores.store_open_date
+	toColumn: LocalDateTable_8bd308ce-f04a-48e0-b132-4ce4c5f0da21.Date
+
+relationship AutoDetected_cabe5927-86d7-489f-8205-a5e1dc82a2b7
+	fromColumn: website_sessions.store_id
+	toColumn: stores.store_id
+
+relationship AutoDetected_966ab262-8a1b-4368-a798-15ed151947a2
+	fromColumn: sales.store_id
+	toColumn: stores.store_id
+
+relationship 020ace0e-cf6b-3ebc-d359-4545c027545a
+	fromColumn: sales.product_id
+	toColumn: products.product_id
+
