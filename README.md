@@ -1,1 +1,1 @@
-First journey with Power BI.
+First journey with Power BI. Creating data analysis dashboard for a mock online business.
